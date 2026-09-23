@@ -1,7 +1,7 @@
 import { MOCK_USERS, MOCK_SERVICE_LISTINGS, MOCK_INQUIRIES } from '../data/mockData';
 
 const DB_NAME = 'KampotTechHubDB';
-const DB_VERSION = 6;
+const DB_VERSION = 8;
 
 export const STORES = {
   USERS: 'users',
@@ -21,8 +21,8 @@ export const initDB = (): Promise<IDBDatabase> => {
     request.onupgradeneeded = (event) => {
       const db = (event.target as IDBOpenDBRequest).result;
 
-      // Force clear stores on version upgrade to re-seed mock data
-      if (event.oldVersion < 6) {
+      // Force clear stores on version upgrade to re-seed mock data with rich locations and multi-photo galleries
+      if (event.oldVersion < 8) {
          if (db.objectStoreNames.contains(STORES.USERS)) db.deleteObjectStore(STORES.USERS);
          if (db.objectStoreNames.contains(STORES.LISTINGS)) db.deleteObjectStore(STORES.LISTINGS);
          if (db.objectStoreNames.contains(STORES.INQUIRIES)) db.deleteObjectStore(STORES.INQUIRIES);

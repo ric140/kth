@@ -27,13 +27,20 @@ const CustomerDashboard: React.FC<{ userId: string }> = ({ userId }) => {
   const [inquiries, setInquiries] = useState<InquiryBooking[]>([]);
   const [listings, setListings] = useState<ServiceListing[]>([]);
 
-  useEffect(() => {
+  const fetchCustomerData = () => {
     if (db) {
-        getAll<InquiryBooking>(db, STORES.INQUIRIES).then(allInq => {
-            setInquiries(allInq.filter(i => i.customerId === userId));
-        });
-        getAll<ServiceListing>(db, STORES.LISTINGS).then(setListings);
+      getAll<InquiryBooking>(db, STORES.INQUIRIES).then(allInq => {
+        setInquiries(allInq.filter(i => i.customerId === userId));
+      });
+      getAll<ServiceListing>(db, STORES.LISTINGS).then(setListings);
     }
+  };
+
+  useEffect(() => {
+    fetchCustomerData();
+    const handleUpdate = () => fetchCustomerData();
+    window.addEventListener('kth_inquiry_added', handleUpdate);
+    return () => window.removeEventListener('kth_inquiry_added', handleUpdate);
   }, [db, userId]);
 
   return (
@@ -43,21 +50,40 @@ const CustomerDashboard: React.FC<{ userId: string }> = ({ userId }) => {
         <div className="space-y-4">
           {inquiries.map(inquiry => {
              const listing = listings.find(l => l.id === inquiry.serviceListingId);
+             const displayDate = inquiry.createdAt ? new Date(inquiry.createdAt).toLocaleDateString() : 'Recent';
              return (
-                <div key={inquiry.id} className="bg-white p-4 rounded-lg shadow-sm border flex items-center justify-between">
-                    <div>
-                        <Link to={`/service/${listing?.id}`} className="font-semibold text-primary hover:underline">{listing?.title || 'Unknown Service'}</Link>
-                        <p className="text-sm text-gray-500">Date: {inquiry.createdAt.toLocaleDateString()}</p>
+                <div key={inquiry.id} className="bg-white p-5 rounded-lg shadow-sm border border-gray-200">
+                    <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                        <div>
+                            {listing ? (
+                              <Link to={`/service/${listing.id}`} className="font-semibold text-primary hover:underline text-lg">
+                                {listing.title}
+                              </Link>
+                            ) : (
+                              <span className="font-semibold text-gray-900 text-lg">
+                                {inquiry.subject || 'Direct Service Provider Inquiry'}
+                              </span>
+                            )}
+                            <p className="text-xs text-gray-500 mt-0.5">Date: {displayDate}</p>
+                        </div>
+                        <span className={`px-3 py-1 text-xs font-semibold rounded-full w-fit ${getStatusChipClass(inquiry.status)}`}>
+                            {inquiry.status.toUpperCase()}
+                        </span>
                     </div>
-                    <span className={`px-3 py-1 text-sm font-medium rounded-full ${getStatusChipClass(inquiry.status)}`}>
-                        {inquiry.status}
-                    </span>
+                    {inquiry.messageFromCustomer && (
+                      <div className="mt-3 text-sm text-gray-600 bg-gray-50 p-3 rounded border border-gray-100 whitespace-pre-wrap">
+                        {inquiry.messageFromCustomer}
+                      </div>
+                    )}
                 </div>
              )
           })}
         </div>
       ) : (
-        <p>You have not made any inquiries yet.</p>
+        <div className="bg-white p-8 rounded-lg shadow-sm border text-center text-gray-500">
+          <p>You have not made any inquiries yet.</p>
+          <p className="text-xs mt-1">Send a message directly to providers using the Contact Us form in the footer!</p>
+        </div>
       )}
     </div>
   );
@@ -77,7 +103,11 @@ const PartnerDashboard: React.FC<{ userId: string }> = ({ userId }) => {
              
              getAll<InquiryBooking>(db, STORES.INQUIRIES).then(allInq => {
                  const myListingIds = myUserListings.map(l => l.id);
-                 setInquiries(allInq.filter(i => myListingIds.includes(i.serviceListingId)));
+                 setInquiries(allInq.filter(i => 
+                   (i.serviceListingId && myListingIds.includes(i.serviceListingId)) ||
+                   i.partnerId === userId ||
+                   i.partnerId === 'all-partners'
+                 ));
              });
         });
       }
@@ -85,6 +115,9 @@ const PartnerDashboard: React.FC<{ userId: string }> = ({ userId }) => {
 
   useEffect(() => {
       fetchData();
+      const handleUpdate = () => fetchData();
+      window.addEventListener('kth_inquiry_added', handleUpdate);
+      return () => window.removeEventListener('kth_inquiry_added', handleUpdate);
   }, [db, userId]);
 
   return (
@@ -117,15 +150,48 @@ const PartnerDashboard: React.FC<{ userId: string }> = ({ userId }) => {
           <div className="space-y-4">
             {inquiries.map(inquiry => {
               const listing = listings.find(l => l.id === inquiry.serviceListingId);
+              const displayDate = inquiry.createdAt ? new Date(inquiry.createdAt).toLocaleString() : 'Recent';
               return (
-                 <div key={inquiry.id} className="bg-white p-4 rounded-lg shadow-sm border">
-                    <div className="flex justify-between items-start">
-                        <Link to={`/service/${listing?.id}`} className="font-semibold text-primary hover:underline">{listing?.title || 'Unknown Service'}</Link>
-                         <span className={`px-3 py-1 text-sm font-medium rounded-full ${getStatusChipClass(inquiry.status)}`}>
-                            {inquiry.status}
+                 <div key={inquiry.id} className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <div className="flex justify-between items-start gap-2">
+                        <div>
+                          {listing ? (
+                            <Link to={`/service/${listing.id}`} className="font-semibold text-primary hover:underline">
+                              {listing.title}
+                            </Link>
+                          ) : (
+                            <span className="font-semibold text-gray-900">
+                              {inquiry.subject || 'Direct Service Provider Inquiry'}
+                            </span>
+                          )}
+                          
+                          {/* Sender Details */}
+                          {(inquiry.senderName || inquiry.senderEmail) && (
+                            <div className="text-xs text-gray-500 mt-1 flex flex-wrap items-center gap-1.5">
+                              <span className="bg-primary/10 text-primary px-2 py-0.5 rounded font-medium">
+                                From: {inquiry.senderName || 'Anonymous'}
+                              </span>
+                              {inquiry.senderEmail && (
+                                <a href={`mailto:${inquiry.senderEmail}`} className="text-blue-600 hover:underline">
+                                  ({inquiry.senderEmail})
+                                </a>
+                              )}
+                              {inquiry.senderPhone && (
+                                <span className="text-gray-600 font-mono">
+                                  📞 {inquiry.senderPhone}
+                                </span>
+                              )}
+                            </div>
+                          )}
+                          <p className="text-[11px] text-gray-400 mt-0.5">Received: {displayDate}</p>
+                        </div>
+                        <span className={`px-3 py-1 text-xs font-semibold rounded-full whitespace-nowrap ${getStatusChipClass(inquiry.status)}`}>
+                            {inquiry.status.toUpperCase()}
                         </span>
                     </div>
-                    <p className="text-sm text-gray-600 mt-2">{inquiry.messageFromCustomer}</p>
+                    <div className="text-sm text-gray-700 mt-3 p-3 bg-gray-50 rounded border border-gray-100 whitespace-pre-wrap">
+                      {inquiry.messageFromCustomer}
+                    </div>
                  </div>
               )
             })}

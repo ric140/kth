@@ -18,6 +18,9 @@ const MotorbikePage = React.lazy(() => import('./pages/MotorbikePage'));
 const TechPage = React.lazy(() => import('./pages/TechPage'));
 const MobileAppPage = React.lazy(() => import('./pages/MobileAppPage'));
 const VisaPage = React.lazy(() => import('./pages/VisaPage'));
+const MapExplorerPage = React.lazy(() => import('./pages/MapExplorerPage'));
+const GmailInquiriesPage = React.lazy(() => import('./pages/GmailInquiriesPage'));
+const AboutPage = React.lazy(() => import('./pages/AboutPage'));
 
 const PageLoader: React.FC = () => (
   <div className="flex justify-center items-center p-20" aria-label="Loading page">
@@ -40,6 +43,9 @@ function App() {
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/search" element={<SearchPage />} />
+                  <Route path="/map" element={<MapExplorerPage />} />
+                  <Route path="/gmail-inbox" element={<GmailInquiriesPage />} />
+                  <Route path="/about" element={<AboutPage />} />
                   
                   {/* Specific Service Category Pages */}
                   <Route path="/services/cat-motorbike" element={<MotorbikePage />} />

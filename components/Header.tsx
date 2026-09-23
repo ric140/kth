@@ -3,10 +3,12 @@ import React, { useState } from 'react';
 import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import AuthModal from './AuthModal';
+import AboutModal from './AboutModal';
 
 const Header: React.FC = () => {
   const { user, logout } = useAuth();
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
+  const [isAboutModalOpen, setIsAboutModalOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
@@ -25,6 +27,20 @@ const Header: React.FC = () => {
 
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
+  };
+
+  const scrollToContact = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const contactElem = document.getElementById('contact-us');
+    if (contactElem) {
+      contactElem.scrollIntoView({ behavior: 'smooth' });
+    } else {
+      navigate('/#contact-us');
+      setTimeout(() => {
+        const el = document.getElementById('contact-us');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 200);
+    }
   };
 
   return (
@@ -83,12 +99,30 @@ const Header: React.FC = () => {
             {/* Desktop Navigation & Auth */}
             <div className="hidden lg:flex items-center space-x-4">
               <nav className="flex items-center space-x-6 mr-4">
-                <NavLink to="/" className={({ isActive }) => `text-lg hover:text-secondary transition duration-300 ${isActive ? 'text-secondary' : ''}`}>Home</NavLink>
-                <NavLink to="/services/cat-tech" className={({ isActive }) => `text-lg hover:text-secondary transition duration-300 ${isActive ? 'text-secondary' : ''}`}>Tech Solutions</NavLink>
-                {user && <NavLink to="/dashboard" className={({ isActive }) => `text-lg hover:text-secondary transition duration-300 ${isActive ? 'text-secondary' : ''}`}>Dashboard</NavLink>}
+                <NavLink to="/" className={({ isActive }) => `text-base xl:text-lg hover:text-secondary transition duration-300 ${isActive ? 'text-secondary font-bold' : ''}`}>Home</NavLink>
+                <NavLink to="/map" className={({ isActive }) => `text-base xl:text-lg hover:text-secondary transition duration-300 flex items-center gap-1.5 ${isActive ? 'text-secondary font-bold' : ''}`}>
+                  <span className="text-secondary">📍</span>
+                  <span>Kampot Map</span>
+                </NavLink>
+                <NavLink to="/gmail-inbox" className={({ isActive }) => `text-base xl:text-lg hover:text-secondary transition duration-300 flex items-center gap-1.5 ${isActive ? 'text-secondary font-bold' : ''}`}>
+                  <span>✉️</span>
+                  <span>Gmail Inquiries</span>
+                </NavLink>
+                <NavLink to="/services/cat-tech" className={({ isActive }) => `text-base xl:text-lg hover:text-secondary transition duration-300 ${isActive ? 'text-secondary font-bold' : ''}`}>Tech Solutions</NavLink>
+                <NavLink to="/about" className={({ isActive }) => `text-base xl:text-lg hover:text-secondary transition duration-300 ${isActive ? 'text-secondary font-bold' : ''}`}>About</NavLink>
+                <a href="#contact-us" onClick={scrollToContact} className="text-base xl:text-lg text-white hover:text-secondary transition duration-300 cursor-pointer">Contact Us</a>
+                {user && <NavLink to="/dashboard" className={({ isActive }) => `text-base xl:text-lg hover:text-secondary transition duration-300 ${isActive ? 'text-secondary font-bold' : ''}`}>Dashboard</NavLink>}
               </nav>
 
               <div className="flex items-center space-x-3">
+                <button
+                  onClick={() => setIsAboutModalOpen(true)}
+                  className="hidden xl:flex items-center gap-1.5 px-3 py-1.5 bg-white/10 hover:bg-white/20 text-emerald-100 hover:text-secondary text-xs font-semibold rounded-lg border border-white/20 transition cursor-pointer shadow-xs"
+                  title="View What It Is, What It Does, and How It Does It"
+                >
+                  <span>📋</span>
+                  <span>App Specs</span>
+                </button>
                 {user ? (
                   <>
                     <span className="hidden xl:inline">Welcome, {user.name.split(' ')[0]}!</span>
@@ -157,12 +191,43 @@ const Header: React.FC = () => {
                 Home
               </NavLink>
               <NavLink 
+                to="/map" 
+                onClick={closeMobileMenu}
+                className={({ isActive }) => `px-3 py-2 rounded-md text-base font-medium flex items-center gap-2 ${isActive ? 'bg-secondary text-primary' : 'text-white hover:bg-gray-800 hover:text-secondary'}`}
+              >
+                <span>📍</span>
+                <span>Kampot Map</span>
+              </NavLink>
+              <NavLink 
+                to="/gmail-inbox" 
+                onClick={closeMobileMenu}
+                className={({ isActive }) => `px-3 py-2 rounded-md text-base font-medium flex items-center gap-2 ${isActive ? 'bg-secondary text-primary' : 'text-white hover:bg-gray-800 hover:text-secondary'}`}
+              >
+                <span>✉️</span>
+                <span>Gmail Inquiries</span>
+              </NavLink>
+              <NavLink 
                 to="/services/cat-tech" 
                 onClick={closeMobileMenu}
                 className={({ isActive }) => `px-3 py-2 rounded-md text-base font-medium ${isActive ? 'bg-secondary text-primary' : 'text-white hover:bg-gray-800 hover:text-secondary'}`}
               >
                 Tech Solutions
               </NavLink>
+              <NavLink 
+                to="/about" 
+                onClick={closeMobileMenu}
+                className={({ isActive }) => `px-3 py-2 rounded-md text-base font-medium flex items-center gap-2 ${isActive ? 'bg-secondary text-primary' : 'text-white hover:bg-gray-800 hover:text-secondary'}`}
+              >
+                <span>📋</span>
+                <span>About & Architecture Guide</span>
+              </NavLink>
+              <a
+                href="#contact-us"
+                onClick={(e) => { scrollToContact(e); closeMobileMenu(); }}
+                className="px-3 py-2 rounded-md text-base font-medium text-white hover:bg-gray-800 hover:text-secondary cursor-pointer"
+              >
+                Contact Us
+              </a>
               {user && (
                  <NavLink 
                   to="/dashboard" 
@@ -198,6 +263,7 @@ const Header: React.FC = () => {
         </div>
       </header>
       <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
+      <AboutModal isOpen={isAboutModalOpen} onClose={() => setIsAboutModalOpen(false)} />
     </>
   );
 };

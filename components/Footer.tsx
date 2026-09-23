@@ -1,21 +1,104 @@
 
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
+import ContactUsForm from './ContactUsForm';
 
 const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
+  const location = useLocation();
 
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
+  const scrollToContact = (e: React.MouseEvent) => {
+    const contactElem = document.getElementById('contact-us');
+    if (contactElem) {
+      contactElem.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
-    <footer className="bg-gray-900 text-gray-300 mt-auto relative">
+    <footer className="bg-gray-900 text-gray-300 mt-auto relative" id="contact-us">
       {/* Dynamic Gradient Top Border */}
       <div className="h-1 w-full bg-gradient-to-r from-primary via-secondary to-primary"></div>
       
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+        
+        {/* Contact Us Section with Direct Provider Inquiry Form */}
+        <section id="contact" className="scroll-mt-24 mb-16">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            {/* Left Column: Contact info & value prop */}
+            <div className="lg:col-span-4 space-y-6">
+              <div>
+                <span className="text-secondary font-mono text-xs uppercase tracking-widest bg-secondary/10 px-2.5 py-1 rounded">
+                  Reach Out Directly
+                </span>
+                <h2 className="text-2xl sm:text-3xl font-bold text-white mt-2 leading-tight">
+                  Contact Our Service Providers
+                </h2>
+                <p className="text-gray-400 text-sm mt-3 leading-relaxed">
+                  Have inquiries about renting a scooter, developing custom software, building a mobile app, or renewing your Cambodian visa?
+                </p>
+                <p className="text-gray-400 text-sm mt-2 leading-relaxed">
+                  Use this form to message registered Kampot Tech Hub providers directly. Messages are sent immediately to the providers' dashboards.
+                </p>
+              </div>
+
+              {/* Quick Info Cards */}
+              <div className="space-y-3 pt-2">
+                <div className="flex items-start space-x-3.5 bg-gray-800/60 p-3.5 rounded-xl border border-gray-800">
+                  <div className="p-2 bg-primary/20 text-secondary rounded-lg flex-shrink-0 mt-0.5">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-white">Hub Location</h4>
+                    <p className="text-xs text-gray-400 mt-0.5">Riverside & Old Market Area, Kampot Province, Cambodia</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-3.5 bg-gray-800/60 p-3.5 rounded-xl border border-gray-800">
+                  <div className="p-2 bg-primary/20 text-secondary rounded-lg flex-shrink-0 mt-0.5">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-white">Direct Email</h4>
+                    <p className="text-xs text-gray-400 mt-0.5">providers@kampottechhub.com</p>
+                    <p className="text-[11px] text-gray-500">Inquiries checked 7 days a week</p>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-3.5 bg-gray-800/60 p-3.5 rounded-xl border border-gray-800">
+                  <div className="p-2 bg-primary/20 text-secondary rounded-lg flex-shrink-0 mt-0.5">
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h4 className="text-sm font-semibold text-white">Service Hours</h4>
+                    <p className="text-xs text-gray-400 mt-0.5">Monday – Saturday: 08:00 – 18:00 ICT</p>
+                    <p className="text-[11px] text-gray-500">Emergency rentals & visa support available</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column: Contact Us Form */}
+            <div className="lg:col-span-8">
+              <ContactUsForm />
+            </div>
+
+          </div>
+        </section>
+
+        {/* Directory Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12 border-t border-gray-800/80 pt-12">
           
           {/* Column 1: Brand & About */}
           <div className="space-y-4">
@@ -57,6 +140,30 @@ const Footer: React.FC = () => {
                 <Link to="/" className="hover:text-secondary transition-colors duration-300 flex items-center group">
                     <span className="text-secondary opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300 mr-2">›</span>
                     Home
+                </Link>
+              </li>
+              <li>
+                <a href="#contact-us" onClick={scrollToContact} className="hover:text-secondary transition-colors duration-300 flex items-center group cursor-pointer text-secondary/90 font-medium">
+                    <span className="text-secondary opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300 mr-2">›</span>
+                    Contact Us & Providers
+                </a>
+              </li>
+              <li>
+                <Link to="/about" className="hover:text-secondary transition-colors duration-300 flex items-center group text-secondary/90 font-medium">
+                    <span className="text-secondary opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300 mr-2">›</span>
+                    About & Architecture Guide
+                </Link>
+              </li>
+              <li>
+                <Link to="/map" className="hover:text-secondary transition-colors duration-300 flex items-center group">
+                    <span className="text-secondary opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300 mr-2">›</span>
+                    Interactive Kampot Map
+                </Link>
+              </li>
+              <li>
+                <Link to="/gmail-inbox" className="hover:text-secondary transition-colors duration-300 flex items-center group">
+                    <span className="text-secondary opacity-0 group-hover:opacity-100 transform -translate-x-2 group-hover:translate-x-0 transition-all duration-300 mr-2">›</span>
+                    Gmail Inquiries Hub
                 </Link>
               </li>
               <li>
@@ -135,13 +242,32 @@ const Footer: React.FC = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="border-t border-gray-800 pt-8 flex justify-end items-center text-xs text-gray-500 relative">
+        <div className="border-t border-gray-800 pt-8 flex flex-col sm:flex-row justify-between items-center text-xs text-gray-500 relative gap-4">
+          <div>
+            <p>© {currentYear} Kampot Tech Hub. All rights reserved.</p>
+            <p className="text-[11px] text-gray-600 mt-0.5">Connecting travelers, expats, and locals directly with trusted services in Kampot.</p>
+          </div>
+
+          <div className="flex items-center space-x-4">
+            <a href="#contact-us" onClick={scrollToContact} className="hover:text-secondary transition-colors cursor-pointer">
+              Direct Provider Inquiries
+            </a>
+            <span>•</span>
+            <Link to="/services/cat-tech" className="hover:text-secondary transition-colors">
+              Tech Solutions
+            </Link>
+            <span>•</span>
+            <Link to="/services/cat-motorbike" className="hover:text-secondary transition-colors">
+              Motorbike Rentals
+            </Link>
+          </div>
           
           {/* Back to Top Button */}
           <button 
             onClick={scrollToTop}
-            className="absolute -top-6 right-0 md:static bg-gray-800 text-gray-400 hover:text-white hover:bg-primary p-2 rounded shadow-lg transition-all duration-300 transform hover:-translate-y-1"
+            className="bg-gray-800 text-gray-400 hover:text-white hover:bg-primary p-2.5 rounded-lg shadow-lg transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
             title="Back to Top"
+            aria-label="Back to Top"
           >
             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 10l7-7m0 0l7 7m-7-7v18" />

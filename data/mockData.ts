@@ -65,8 +65,20 @@ export const MOCK_SERVICE_LISTINGS: ServiceListing[] = [
     description: 'A powerful and reliable scooter, perfect for both city commuting and countryside exploration. Available for rent at $6 a day or $65 a month.',
     price: '6', 
     currency: 'USD / Day (or $65/month)', 
-    imagesUrls: ['https://images.unsplash.com/photo-1525160354320-545e39edee96?q=80&w=1200&auto=format&fit=crop'], 
+    imagesUrls: [
+      'https://images.unsplash.com/photo-1558981403-c5f9899a28bc?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1525160354320-545e39edee96?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1558980664-769d59546b3d?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1508974239320-0a029497e820?q=80&w=1200&auto=format&fit=crop'
+    ], 
     status: ServiceStatus.ACTIVE,
+    location: {
+      lat: 10.6105,
+      lng: 104.1812,
+      address: 'Durian Roundabout Depot, Krong Kampot',
+      landmark: 'Near Kampot Durian Monument'
+    },
     details: { type: 'motorbike', make: 'Honda', model: 'Airblade', year: 2020, condition: 'Excellent', rentalPricePerDay: 6 }
   },
   {
@@ -77,8 +89,19 @@ export const MOCK_SERVICE_LISTINGS: ServiceListing[] = [
     description: 'Stylish cruiser in great condition. For sale at $799. Includes a 3-month mechanical warranty.',
     price: '799', 
     currency: 'USD', 
-    imagesUrls: ['https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?q=80&w=1200&auto=format&fit=crop'], 
+    imagesUrls: [
+      'https://images.unsplash.com/photo-1449426468159-d96dbf08f19f?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1558981806-ec527fa84c39?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1558980664-3a031cf67ea8?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1558981408-db0ecd8a1ee4?q=80&w=1200&auto=format&fit=crop'
+    ], 
     status: ServiceStatus.ACTIVE,
+    location: {
+      lat: 10.5982,
+      lng: 104.1801,
+      address: 'Old Market St. Garage, Kampot Riverside',
+      landmark: 'Old French Bridge Approach'
+    },
     details: { type: 'motorbike', make: 'Honda', model: 'Rebel', year: 2017, condition: 'Used - Good', salePrice: 799 }
   },
   {
@@ -89,32 +112,95 @@ export const MOCK_SERVICE_LISTINGS: ServiceListing[] = [
     description: 'Compact, agile, and fuel-efficient. Available for rent at $6 a day or $65 a month.',
     price: '6', 
     currency: 'USD / Day (or $65/month)', 
-    imagesUrls: ['https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?q=80&w=1200&auto=format&fit=crop'], 
+    imagesUrls: [
+      'https://images.unsplash.com/photo-1591637333184-19aa84b3e01f?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1509285605230-056294b45595?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1520695287272-b7f8af46d367?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1568772585407-9361f9bf3a87?q=80&w=1200&auto=format&fit=crop'
+    ], 
     status: ServiceStatus.ACTIVE,
+    location: {
+      lat: 10.6055,
+      lng: 104.1795,
+      address: 'Riverside Walkway Station, Kampot',
+      landmark: 'Opposite Night Market'
+    },
     details: { type: 'motorbike', make: 'Honda', model: 'Beat', year: 2021, condition: 'Very Good', rentalPricePerDay: 6 }
   },
   {
     id: 'list-app-1', categoryId: 'cat-app-design', partnerId: 'user-3', title: 'E-Commerce Mobile App Design',
     description: 'Complete UI/UX design package for an e-commerce mobile application. Includes user research, wireframing, and high-fidelity prototypes.',
-    price: '1500', currency: 'USD / Project', imagesUrls: ['https://picsum.photos/seed/app1/800/600'], status: ServiceStatus.ACTIVE,
+    price: '1500', currency: 'USD / Project', 
+    imagesUrls: [
+      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1581291518857-4e27b48ff24e?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=1200&auto=format&fit=crop'
+    ], 
+    status: ServiceStatus.ACTIVE,
+    location: {
+      lat: 10.5873,
+      lng: 104.1755,
+      address: 'Fish Island Creative Studio, Traeuy Kaoh, Kampot',
+      landmark: 'Kampot Arts & Digital Cluster'
+    },
     details: { type: 'mobile-app', platforms: ['iOS', 'Android'], designTools: ['Figma', 'Adobe XD'], prototypeIncluded: true, estimatedDuration: '3 Weeks' }
   },
   {
     id: 'list-tech-1', categoryId: 'cat-tech', partnerId: 'user-3', title: 'Professional Website Development',
     description: 'Get a stunning, responsive, and SEO-optimized website for your business. From portfolios to e-commerce, we build solutions that drive growth.',
-    price: 'Starting at 500', currency: 'USD', imagesUrls: ['https://picsum.photos/seed/tech1/800/600'], status: ServiceStatus.ACTIVE,
+    price: 'Starting at 500', currency: 'USD', 
+    imagesUrls: [
+      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1531403009284-440f080d1e12?q=80&w=1200&auto=format&fit=crop'
+    ], 
+    status: ServiceStatus.ACTIVE,
+    location: {
+      lat: 10.5937,
+      lng: 104.1784,
+      address: 'Kampot Tech Hub Office, Street 724, Krong Kampot',
+      landmark: 'Old Market Historic Quarter'
+    },
     details: { type: 'tech', solutionType: 'website_dev', coreOfferings: ['Responsive Design', 'CMS Integration', 'SEO Basics'], pricingModel: 'Per Project' }
   },
   {
     id: 'list-tech-2', categoryId: 'cat-tech', partnerId: 'user-3', title: 'POS & Online Payment Integration',
     description: 'Streamline your business transactions with our secure POS systems and online payment gateway integrations. Supports major cards and QR codes.',
-    price: '200', currency: 'USD / Setup', imagesUrls: ['https://picsum.photos/seed/pay1/800/600'], status: ServiceStatus.ACTIVE,
+    price: '200', currency: 'USD / Setup', 
+    imagesUrls: [
+      'https://images.unsplash.com/photo-1556742049-0a67e5572293?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1556742111-a301076d9d18?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1563013544-824ae1b704d3?q=80&w=1200&auto=format&fit=crop'
+    ], 
+    status: ServiceStatus.ACTIVE,
+    location: {
+      lat: 10.5960,
+      lng: 104.1830,
+      address: 'Fintech Solutions Center, National Road 3, Kampot',
+      landmark: 'Near Kampot Provincial Hall'
+    },
     details: { type: 'tech', solutionType: 'payment_solutions', coreOfferings: ['QR Payments', 'Card Terminals', 'API Integration'], pricingModel: 'One-time Setup + Monthly' }
   },
   {
     id: 'list-visa-1', categoryId: 'cat-visa', partnerId: 'user-2', title: 'Tourist Visa Extension Service',
     description: 'Extend your stay without the hassle. We handle all the paperwork and appointments for your tourist visa extension.',
-    price: '150', currency: 'USD', imagesUrls: ['https://picsum.photos/seed/visa1/800/600'], status: ServiceStatus.ACTIVE,
+    price: '150', currency: 'USD', 
+    imagesUrls: [
+      'https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1488646953014-85cb44e25828?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1434030216411-0b793f4b4173?q=80&w=1200&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1200&auto=format&fit=crop'
+    ], 
+    status: ServiceStatus.ACTIVE,
+    location: {
+      lat: 10.6015,
+      lng: 104.1772,
+      address: 'Expat Services Desk, Riverside Road, Kampot',
+      landmark: 'Near Lotus Pond'
+    },
     details: { type: 'visa', visaType: 'Tourist (TR)', processingTimeDays: 5, requirements: 'Passport, recent photo, and current visa details.' }
   }
 ];

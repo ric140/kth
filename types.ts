@@ -33,6 +33,13 @@ export enum ServiceStatus {
   INACTIVE = 'inactive',
 }
 
+export interface ServiceLocation {
+  lat: number;
+  lng: number;
+  address: string;
+  landmark?: string;
+}
+
 export interface ServiceListing {
   id: string;
   categoryId: string;
@@ -43,7 +50,19 @@ export interface ServiceListing {
   currency: string;
   imagesUrls: string[];
   status: ServiceStatus;
+  location?: ServiceLocation;
   details: Motorbike | MobileAppDesign | VisaService | TechSolution;
+}
+
+export interface GmailEmailMessage {
+  id: string;
+  threadId: string;
+  snippet: string;
+  subject?: string;
+  from?: string;
+  to?: string;
+  date?: string;
+  body?: string;
 }
 
 export interface Motorbike {
@@ -92,11 +111,15 @@ export enum InquiryBookingStatus {
 
 export interface InquiryBooking {
   id: string;
-  serviceListingId: string;
+  serviceListingId?: string;
   customerId: string;
   partnerId: string;
   type: InquiryBookingType;
   status: InquiryBookingStatus;
   messageFromCustomer: string;
   createdAt: Date;
+  senderName?: string;
+  senderEmail?: string;
+  senderPhone?: string;
+  subject?: string;
 }

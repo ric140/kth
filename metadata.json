@@ -1,5 +1,6 @@
 {
   "name": "Kampot Tech Hub",
   "description": "A central online portal for customers to discover and access a wide range of services, from motorbike rentals and tech solutions to guesthouse reservations and real estate.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [],
+  "majorCapabilities": []
 }
